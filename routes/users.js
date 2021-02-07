@@ -2,7 +2,7 @@ const router = require('express').Router();
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const { registerValidation, loginValidation } = require('./userValidation');
+const { loginValidation } = require('./userValidation');
 
 //Get user by email
 router.get('/', (req, res) => {
@@ -16,35 +16,6 @@ router.get('/', (req, res) => {
             }
           })
 })
-
-//Register new user
-router.post('/register', async (req,res) => {
-
-    //Check if user already exists
-    const emailExist = await User.findOne({email: req.body.email});
-    if(emailExist) return res.send('"email" already in use');
-
-    //Validation
-    const {error} = registerValidation(req.body);
-    if(error) return res.send(error.details[0].message);
-
-    //Hash the password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(req.body.password, salt);
-
-    //Create new user
-    const newUser = new User({
-        name: req.body.name,
-        email: req.body.email,
-        password: hashedPassword
-    });
-    try{
-        const savedUser = await newUser.save();
-        res.send('success');
-    }catch(err){
-        res.status(400).send('Error' + err);
-    }
-});
 
 //Login user
 router.post('/login', async (req,res) => {
