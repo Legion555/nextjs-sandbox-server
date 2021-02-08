@@ -17,7 +17,8 @@
     "express": "^4.17.1",
     "heroku": "^7.47.12",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.11.15"
+    "mongoose": "^5.11.15",
+    "nodemailer": "^6.4.17"
   },
   "engines": {
     "node": "14.15.4"

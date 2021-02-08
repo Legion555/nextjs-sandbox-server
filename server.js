@@ -16,6 +16,7 @@ mongoose.connect(process.env.MONGODB_URI,
 const usersRoute = require('./routes/users');
 const albumsRoute = require('./routes/albums');
 const imagesRoute = require('./routes/images');
+const emailsRoute = require('./routes/emails');
 
 //Middleware
 app.use(express.json());
@@ -25,6 +26,7 @@ app.use(cors());
 app.use('/api/users', usersRoute);
 app.use('/api/albums', albumsRoute);
 app.use('/api/images', imagesRoute);
+app.use('/api/emails', emailsRoute);
 
 if(process.env.NODE_ENV === 'production') {
     app.get('/', function (req, res) {
