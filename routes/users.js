@@ -25,7 +25,7 @@ router.post('/login', async (req,res) => {
     if(error) return res.send(error.details[0].message);
 
     //Check if email exists
-    const user = await User.findOne({email: req.body.email});
+    const user = await User.findOne({email: process.env.email});
     if(!user) return res.send('"email" not found');
 
     //Validate password
