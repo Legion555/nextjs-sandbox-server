@@ -1,8 +1,9 @@
 const router = require('express').Router();
 const User = require('../models/User');
+const verify = require('./verifyToken');
 
 //create album
-router.put('/create', async (req,res) => {
+router.put('/create', verify, async (req,res) => {
   User.updateOne(
       { _id: req.body.userId },
       { $push: {
@@ -36,7 +37,7 @@ router.get('/', (req, res) => {
 })
 
 //Delete album
-router.put('/delete', async (req,res) => {
+router.put('/delete', verify, async (req,res) => {
   User.updateOne(
     { _id: req.body.userId },
     { $pull: { albums: {_id: req.body.albumId}}}, 

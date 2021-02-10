@@ -1,8 +1,9 @@
 const router = require('express').Router();
 const User = require('../models/User');
+const verify = require('./verifyToken');
 
 //add images to album
-router.put('/add', async (req,res) => {
+router.put('/add', verify, async (req,res) => {
     User.updateOne(
         { _id: req.body.userId, 'albums._id': req.body.albumId },
         { $push: {
@@ -23,7 +24,7 @@ router.put('/add', async (req,res) => {
     );
 })
 //Delete image
-router.put('/delete', async (req,res) => {
+router.put('/delete', verify, async (req,res) => {
     User.updateOne(
         { _id: req.body.userId, 'albums._id': req.body.albumId },
         { $pull: {

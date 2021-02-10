@@ -3,9 +3,10 @@ const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { loginValidation } = require('./userValidation');
+const verify = require('./verifyToken');
 
 //Get user by email
-router.get('/', (req, res) => {
+router.get('/', verify, (req, res) => {
     // User.find().then(items => res.json(items));
     User.find( {email: req.query.email},
         function(err, result) {
@@ -34,7 +35,7 @@ router.post('/login', async (req,res) => {
 
     //Create and assigning token
     const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
-    res.header('auth-token', token).send('success');
+    res.header('auth-token', token).send({message: 'success', token: token});
 })
 
 module.exports = router
